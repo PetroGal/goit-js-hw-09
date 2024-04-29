@@ -1,10 +1,7 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const formData = {
-  email: '',
-  message: '',
-};
+let formData = JSON.parse(localStorage.getItem('feedback-form-state')) || {};
 
 const formRefs = {
   formEl: document.querySelector('.feedback-form'),
@@ -22,14 +19,6 @@ function handleFormInput(event) {
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 }
 
-function handleEmailInput(event) {
-  event.preventDefault();
-}
-
-function handleTextareaInput(event) {
-  event.preventDefault();
-}
-
 function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -42,22 +31,15 @@ function handleFormSubmit(event) {
     console.log(formData);
   }
 
-  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
   event.currentTarget.reset('feedback-form-state');
   localStorage.removeItem('feedback-form-state');
+  formData = {};
 }
 
 function populateFormFields() {
-  const data = localStorage.getItem('feedback-form-state');
-
-  const parsedData = JSON.parse(data);
-
-  if (!data) return;
-  formRefs.inputEl.value = parsedData.email;
-  formRefs.textAreaEl.value = parsedData.message;
+  formRefs.inputEl.value = formData.email || '';
+  formRefs.textAreaEl.value = formData.message || '';
 }
 
-formRefs.inputEl.addEventListener('input', handleEmailInput);
-formRefs.textAreaEl.addEventListener('input', handleTextareaInput);
 formRefs.formEl.addEventListener('submit', handleFormSubmit);
 formRefs.formEl.addEventListener('input', handleFormInput);
