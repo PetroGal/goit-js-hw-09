@@ -18,7 +18,8 @@ function handleFormInput(event) {
   event.preventDefault();
 
   formData[event.target.name] = event.target.value.trim();
-  // console.log(formData);
+
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 }
 
 function handleEmailInput(event) {
@@ -43,6 +44,7 @@ function handleFormSubmit(event) {
 
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
   event.currentTarget.reset('feedback-form-state');
+  localStorage.removeItem('feedback-form-state');
 }
 
 function populateFormFields() {
